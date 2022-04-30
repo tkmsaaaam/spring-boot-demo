@@ -12,6 +12,7 @@
 - [ ] Write a controller
 - [ ] Write a test
 - [ ] Use a router
+- [ ] Docker
 
 ### Run
 - command
