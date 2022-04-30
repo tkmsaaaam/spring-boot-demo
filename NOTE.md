@@ -11,3 +11,14 @@
 - [ ] Write a controller
 - [ ] Write a test
 - [ ] Use a router
+
+### Run
+- command
+```
+./mvnw spring-boot:run
+```
+
+- access
+```
+http://localhost:8080/
+```
