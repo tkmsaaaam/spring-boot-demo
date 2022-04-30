@@ -5,7 +5,8 @@
 ### Todo
 - [x] Hello World
 - [x] Use a template
-- [ ] Use a db
+- [x] Use a db
+  - [ ] Check how to migrate
 - [ ] Write a model
 - [ ] Write a controller
 - [ ] Write a test
