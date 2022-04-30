@@ -4,7 +4,7 @@
 
 ### Todo
 - [x] Hello World
-- [ ] Use a template
+- [x] Use a template
 - [ ] Use a db
 - [ ] Write a model
 - [ ] Write a controller
