@@ -14,7 +14,7 @@
 - [ ] Write a model
 - [ ] Write a controller
 - [ ] Write a test
-- [ ] Use a router
+- [x] Use a router
 - [ ] Docker
 - [x] Add devtools
 - [ ] Use linter or formatter
