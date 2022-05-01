@@ -14,6 +14,7 @@
 - [ ] Use a router
 - [ ] Docker
 - [x] Add devtools
+- [ ] Use linter or formatter
 
 ### Run
 - command
