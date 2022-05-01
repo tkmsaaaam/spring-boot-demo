@@ -13,6 +13,7 @@
 - [ ] Write a test
 - [ ] Use a router
 - [ ] Docker
+- [x] Add devtools
 
 ### Run
 - command
