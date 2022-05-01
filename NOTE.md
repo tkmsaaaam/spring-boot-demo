@@ -10,7 +10,7 @@
 - [x] Use a template
 - [x] Use a db
   - [x] Check how to db migrate
-  - Use db migrate
+  - [x] Use db migrate
 - [ ] Write a model
 - [ ] Write a controller
 - [ ] Write a test
