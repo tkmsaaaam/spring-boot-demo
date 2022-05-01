@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class HelloController {
+public class RootController {
 
 	@GetMapping("/hello")
 	public String index(Model model) {

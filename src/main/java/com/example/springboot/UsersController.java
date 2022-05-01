@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(path="/demo")
-public class MainController {
+@RequestMapping(path="/user")
+public class UsersController {
   @Autowired
   private UserRepository userRepository;
 
