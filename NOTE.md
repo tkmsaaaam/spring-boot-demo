@@ -15,15 +15,21 @@
 - [ ] Write a controller
 - [ ] Write a test
 - [x] Use a router
-- [ ] Docker
+- [x] Docker
 - [x] Add devtools
 - [ ] Use linter or formatter
 
 ### Run
 - command
-```
-./mvnw spring-boot:run
-```
+  - local
+  ```
+  ./mvnw spring-boot:run
+  ```
+  - Docker
+  ```
+  docker-compose up
+  ```
+
 
 - access
 ```
