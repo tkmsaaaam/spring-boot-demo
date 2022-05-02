@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequestMapping(path="/user")
@@ -28,5 +29,14 @@ public class UsersController {
   @GetMapping(path="/all")
   public @ResponseBody Iterable<User> getAllUsers() {
     return userRepository.findAll();
+  }
+
+  @PostMapping(path="/edit/{id}")
+  public @ResponseBody String editUser (@RequestParam(required = false) String name, @RequestParam(required = false) String email, @PathVariable int id) {
+    User u = userRepository.findById(id).get();
+    u.setName(name);
+    u.setEmail(email);
+    userRepository.save(u);
+    return "Updated";
   }
 }
