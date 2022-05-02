@@ -1,0 +1,41 @@
+version: '2.4.1'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: spring_boot_demo
+      MYSQL_USER: spring_boot_demo
+      MYSQL_PASSWORD: spring_boot_demo
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3306:3306
+
+  migratedb:
+    image: boxfuse/flyway:latest
+    volumes:
+      - ./src/main/resources/db/migration:/flyway/sql
+      - ./flyway/conf:/flyway/conf
+    depends_on:
+      - mysql
+    command: migrate
+
+  java:
+    image: openjdk:15
+    container_name: java
+    environment:
+      MYSQL_DATABASE: spring_boot_demo
+      MYSQL_USER: spring_boot_demo
+      MYSQL_PASSWORD: spring_boot_demo
+      MYSQL_ROOT_PASSWORD: password
+    tty: true
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - 8080:8080
+      - 5050:5050
+    depends_on:
+      - mysql
+    command: ./mvnw spring-boot:run
