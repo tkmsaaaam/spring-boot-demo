@@ -39,4 +39,11 @@ public class UsersController {
     userRepository.save(u);
     return "Updated";
   }
+
+  @PostMapping("/delete/{id}")
+  public @ResponseBody String deleteUser(@PathVariable int id) {
+    User u = userRepository.findById(id).get();
+    userRepository.delete(u);
+    return "Deleted";
+  }
 }
