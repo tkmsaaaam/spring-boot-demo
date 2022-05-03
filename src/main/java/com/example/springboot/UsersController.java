@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
-@RequestMapping(path="/user")
+@RequestMapping(path="/api/user")
 public class UsersController {
   @Autowired
   private UserRepository userRepository;
@@ -24,6 +24,12 @@ public class UsersController {
     n.setEmail(email);
     userRepository.save(n);
     return "Saved";
+  }
+
+  @GetMapping("/{id}")
+  public @ResponseBody String getUser(@PathVariable int id) {
+    User u = userRepository.findById(id).get();
+    return u.getEmail();
   }
 
   @GetMapping(path="/all")
