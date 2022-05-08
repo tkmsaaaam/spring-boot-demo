@@ -21,12 +21,12 @@ public class HelloControllerTest {
 	@Test
 	public void getHello() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.TEXT_HTML))
-				.andExpect(status().isOk());
+				.andExpect(status().isFound());
 	}
 
   @Test
 	public void getBonjour() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/bonjour").accept(MediaType.TEXT_HTML))
-				.andExpect(status().isOk());
+				.andExpect(status().isFound());
 	}
 }
