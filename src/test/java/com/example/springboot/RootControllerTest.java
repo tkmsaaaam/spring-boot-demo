@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class RootControllerTest {
@@ -21,12 +23,12 @@ public class RootControllerTest {
 	@Test
 	public void getHello() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.TEXT_HTML))
-				.andExpect(status().isFound());
+				.andExpect(redirectedUrl("http://localhost/login"));
 	}
 
   @Test
 	public void getBonjour() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/bonjour").accept(MediaType.TEXT_HTML))
-				.andExpect(status().isFound());
+				.andExpect(redirectedUrl("http://localhost/login"));
 	}
 }
