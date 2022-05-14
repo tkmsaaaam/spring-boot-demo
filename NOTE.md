@@ -11,13 +11,13 @@
 - [x] Use a db
   - [x] Check how to db migrate
   - [x] Use db migrate
-- [ ] Write a model
-- [ ] Write a controller
-- [ ] Write a test
+- [x] Write a model
+- [x] Write a controller
+- [x] Write a test
 - [x] Use a router
 - [x] Docker
 - [x] Add devtools
-- [ ] Use linter or formatter
+- [x] Use linter or formatter
 
 ### Run
 - command
