@@ -1,4 +1,4 @@
-package com.example.springboot;
+package com.example.springboot.form;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

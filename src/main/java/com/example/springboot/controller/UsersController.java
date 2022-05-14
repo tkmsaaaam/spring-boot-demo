@@ -1,5 +1,7 @@
-package com.example.springboot;
+package com.example.springboot.controller;
 
+import com.example.springboot.UserRepository;
+import com.example.springboot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
