@@ -39,8 +39,8 @@ public class CrudUserController {
 
   @PostMapping("/form")
   public String create(CrudUserForm crudUserForm) {
-    String sql = "INSERT INTO user(name, email) VALUES(?, ?);";
-    jdbcTemplate.update(sql, crudUserForm.getName(), crudUserForm.getEmail());
+    String sql = "INSERT INTO user(name, email, authority) VALUES(?, ?, ?);";
+    jdbcTemplate.update(sql, crudUserForm.getName(), crudUserForm.getEmail(), "ROLE_USER");
     return "redirect:/crud-user";
   }
 
@@ -56,7 +56,7 @@ public class CrudUserController {
 
   @PostMapping("/edit/{id}")
   public String update(CrudUserForm crudUserForm, @PathVariable int id) {
-    String sql = "UPDATE user SET name = ?, email = ? WHERE id = " + id;
+    String sql = "UPDATE user SET name = ?, email = ?, authority = 'ROLE_USER' WHERE id = " + id;
     jdbcTemplate.update(sql, crudUserForm.getName(), crudUserForm.getEmail());
     return "redirect:/crud-user";
   }
