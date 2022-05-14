@@ -67,7 +67,7 @@ public class RootController {
         }
 
         try {
-            userDetailsServiceImpl.register(signupForm.getUsername(), signupForm.getPassword(), "ROLE_USER");
+            userDetailsServiceImpl.register(signupForm.getUsername(), signupForm.getEmail(), signupForm.getPassword(), "ROLE_USER");
         } catch (DataAccessException e) {
             System.out.println(e);
             model.addAttribute("signupError", "ユーザー登録に失敗しました");

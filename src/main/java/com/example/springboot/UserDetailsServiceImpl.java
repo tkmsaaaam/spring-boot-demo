@@ -40,9 +40,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Transactional
-    public void register(String username, String password, String authority) {
-      String sql = "INSERT INTO user(name, password, authority) VALUES(?, ?, ?);";
-      jdbcTemplate.update(sql, username, passwordEncoder.encode(password), authority);
+    public void register(String username, String email, String password, String authority) {
+      String sql = "INSERT INTO user(name, email, password, authority) VALUES(?, ?, ?, ?);";
+      jdbcTemplate.update(sql, username, email, passwordEncoder.encode(password), authority);
     }
 
     public boolean isExistUser(String username) {

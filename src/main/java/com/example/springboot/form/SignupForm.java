@@ -9,6 +9,10 @@ public class SignupForm {
     private String username;
 
     @NotBlank
+    @Size(min = 1, max = 50)
+    private String email;
+
+    @NotBlank
     @Size(min = 6, max = 20)
     private String password;
 
@@ -17,6 +21,12 @@ public class SignupForm {
     }
     public void setUsername(String username) {
         this.username = username;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
     public String getPassword() {
         return password;
