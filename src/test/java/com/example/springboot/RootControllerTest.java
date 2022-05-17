@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -21,12 +22,14 @@ public class RootControllerTest {
 	@Test
 	public void getHello() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.TEXT_HTML))
-				.andExpect(status().isOk());
+			.andExpect(status().isOk())
+			.andExpect(view().name("root/hello"));
 	}
 
   @Test
 	public void getBonjour() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/bonjour").accept(MediaType.TEXT_HTML))
-				.andExpect(status().isOk());
+			.andExpect(status().isOk())
+			.andExpect(view().name("root/bonjour"));
 	}
 }
