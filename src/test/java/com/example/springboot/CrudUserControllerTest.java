@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 @SpringBootTest
@@ -21,6 +22,7 @@ public class CrudUserControllerTest {
   @Test
   public void getIndex() throws Exception {
     mvc.perform(MockMvcRequestBuilders.get("/crud-user/index").accept(MediaType.TEXT_HTML))
-				.andExpect(redirectedUrl("http://localhost/login"));
+      .andExpect(status().is3xxRedirection())
+      .andExpect(redirectedUrl("http://localhost/login"));
   }
 }
