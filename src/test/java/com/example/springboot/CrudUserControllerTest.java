@@ -25,4 +25,11 @@ public class CrudUserControllerTest {
       .andExpect(status().is3xxRedirection())
       .andExpect(redirectedUrl("http://localhost/login"));
   }
+
+  @Test
+  public void getForm() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.get("/crud-user/form").accept(MediaType.TEXT_HTML))
+      .andExpect(status().is3xxRedirection())
+      .andExpect(redirectedUrl("http://localhost/login"));
+  }
 }
