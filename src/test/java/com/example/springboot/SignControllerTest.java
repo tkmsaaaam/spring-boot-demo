@@ -23,4 +23,10 @@ public class SignControllerTest {
     mvc.perform(MockMvcRequestBuilders.get("/login").accept(MediaType.TEXT_HTML))
       .andExpect(status().isOk());
   }
+
+  @Test
+  public void getSignup() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.get("/signup").accept(MediaType.TEXT_HTML))
+      .andExpect(status().isOk());
+  }
 }
