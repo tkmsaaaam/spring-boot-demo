@@ -27,6 +27,13 @@ public class UsersControllerTest {
   }
 
   @Test
+  public void getId() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.get("/api/user/id").accept(MediaType.TEXT_HTML))
+      .andExpect(status().is3xxRedirection())
+      .andExpect(redirectedUrl("http://localhost/login"));
+  }
+
+  @Test
   public void postUser() throws Exception {
     mvc.perform(MockMvcRequestBuilders.post("/api/user/add"))
       .andExpect(status().is4xxClientError());
