@@ -38,5 +38,16 @@ public class UsersControllerTest {
     mvc.perform(MockMvcRequestBuilders.post("/api/user/add"))
       .andExpect(status().is4xxClientError());
   }
-  
+
+  @Test
+  public void editUser() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.post("/api/user/edit/id"))
+      .andExpect(status().is4xxClientError());
+  }
+
+  @Test
+  public void deleteUser() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.post("/api/user/delete/id"))
+      .andExpect(status().is4xxClientError());
+  }
 }
