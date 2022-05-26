@@ -32,4 +32,10 @@ public class CrudUserControllerTest {
       .andExpect(status().is3xxRedirection())
       .andExpect(redirectedUrl("http://localhost/login"));
   }
+
+  @Test
+  public void postForm() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.post("/crud-user/edit/id"))
+      .andExpect(status().is4xxClientError());
+  }
 }
