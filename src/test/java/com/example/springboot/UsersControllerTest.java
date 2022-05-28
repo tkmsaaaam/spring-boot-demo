@@ -47,7 +47,7 @@ public class UsersControllerTest {
 
   @Test
   public void deleteUser() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.post("/api/user/delete/id"))
+    mvc.perform(MockMvcRequestBuilders.delete("/api/user/delete/id"))
       .andExpect(status().is4xxClientError());
   }
 }
