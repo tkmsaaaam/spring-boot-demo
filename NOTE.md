@@ -24,6 +24,7 @@
   - local
   ```
   ./mvnw spring-boot:run
+  mvn spring-boot:run -Dmaven.test.skip=true
   ```
   - Docker
   ```
