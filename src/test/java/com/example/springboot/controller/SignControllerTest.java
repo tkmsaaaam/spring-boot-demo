@@ -1,7 +1,6 @@
-package com.example.springboot;
+package com.example.springboot.controller;
 
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,22 +13,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RootControllerTest {
+public class SignControllerTest {
 
-	@Autowired
-	private MockMvc mvc;
+    @Autowired
+    private MockMvc mvc;
 
-	@Test
-	public void getHello() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.TEXT_HTML))
-			.andExpect(status().isOk())
-			.andExpect(view().name("root/hello"));
-	}
+    @Test
+    public void getLogin() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/login").accept(MediaType.TEXT_HTML))
+                .andExpect(status().isOk())
+                .andExpect(view().name("sign/login"));
+    }
 
-  @Test
-	public void getBonjour() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/bonjour").accept(MediaType.TEXT_HTML))
-			.andExpect(status().isOk())
-			.andExpect(view().name("root/bonjour"));
-	}
+    @Test
+    public void getSignup() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/signup").accept(MediaType.TEXT_HTML))
+                .andExpect(status().isOk())
+                .andExpect(view().name("sign/signup"));
+    }
 }

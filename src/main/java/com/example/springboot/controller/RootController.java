@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class RootController {
 
-	@GetMapping("/hello")
-	public String index(Model model) {
-		return "root/hello";
-	}
+    @GetMapping("/hello")
+    public String index() {
+        return "root/hello";
+    }
 
-	@GetMapping("/bonjour")
-	public String bonjour(Model model) {
-		model.addAttribute("message", "Bonjour le monde!");
-		return "root/bonjour";
-	}
+    @GetMapping("/bonjour")
+    public String bonjour(Model model) {
+        model.addAttribute("message", "Bonjour le monde!");
+        return "root/bonjour";
+    }
 }

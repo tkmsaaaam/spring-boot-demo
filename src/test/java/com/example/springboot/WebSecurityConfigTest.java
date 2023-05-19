@@ -12,11 +12,11 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 @SpringBootTest
 @AutoConfigureMockMvc
 public class WebSecurityConfigTest {
-  @Autowired
-  MockMvc mockMvc;
+    @Autowired
+    MockMvc mockMvc;
 
-  @Test
-  public void formLoginWithInvalidCredential() throws Exception {
-    mockMvc.perform(formLogin().user("aaa").password("111")).andExpect(unauthenticated());
-  }
+    @Test
+    public void formLoginWithInvalidCredential() throws Exception {
+        mockMvc.perform(formLogin().user("aaa").password("111")).andExpect(unauthenticated());
+    }
 }

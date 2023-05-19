@@ -1,0 +1,40 @@
+package com.example.springboot.controller;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class CrudUserControllerTest {
+
+    @Autowired
+    private MockMvc mvc;
+
+    @Test
+    public void getIndex() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/crud-user/index").accept(MediaType.TEXT_HTML))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost/login"));
+    }
+
+    @Test
+    public void getForm() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/crud-user/form").accept(MediaType.TEXT_HTML))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost/login"));
+    }
+
+    @Test
+    public void postForm() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.post("/crud-user/edit/id"))
+                .andExpect(status().is4xxClientError());
+    }
+}
