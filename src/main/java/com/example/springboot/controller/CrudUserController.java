@@ -2,35 +2,36 @@ package com.example.springboot.controller;
 
 import com.example.springboot.UserDetailsImpl;
 import com.example.springboot.UserDetailsServiceImpl;
+import com.example.springboot.UserRepository;
 import com.example.springboot.form.CrudUserForm;
+import com.example.springboot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/crud-user")
 public class CrudUserController {
-    private final JdbcTemplate jdbcTemplate;
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;
+
+    private final UserRepository userRepository;
+
     @Autowired
-    public CrudUserController(JdbcTemplate jdbcTemplate, UserDetailsServiceImpl userDetailsServiceImpl) {
-        this.jdbcTemplate = jdbcTemplate;
+    public CrudUserController(UserDetailsServiceImpl userDetailsServiceImpl, UserRepository userRepository) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
     public String index(Model model) {
-        String sql = "SELECT * FROM user";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+        List<User> list = (List<User>) userRepository.findAll();
         model.addAttribute("crudUserList", list);
         return "crud-user/index";
     }
@@ -53,25 +54,31 @@ public class CrudUserController {
 
     @GetMapping("/edit/{id}")
     public String edit(@ModelAttribute CrudUserForm crudUserForm, @PathVariable int id) {
-        String sql = "SELECT * FROM user WHERE id = " + id;
-        Map<String, Object> map = jdbcTemplate.queryForMap(sql);
-        crudUserForm.setId((int) map.get("id"));
-        crudUserForm.setName((String) map.get("name"));
-        crudUserForm.setEmail((String) map.get("email"));
-        return "crud-user/edit";
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            crudUserForm.setId(user.get().getId());
+            crudUserForm.setName(user.get().getName());
+            crudUserForm.setEmail(user.get().getEmail());
+            return "crud-user/edit";
+        } else {
+            return "redirect:/crud-user";
+        }
     }
 
     @PostMapping("/edit/{id}")
     public String update(CrudUserForm crudUserForm, @PathVariable int id) {
-        String sql = "UPDATE user SET name = ?, email = ?, authority = 'ROLE_USER' WHERE id = " + id;
-        jdbcTemplate.update(sql, crudUserForm.getName(), crudUserForm.getEmail());
+        User user = new User();
+        user.setId(id);
+        user.setName(crudUserForm.getName());
+        user.setEmail(crudUserForm.getEmail());
+        user.setAuthority("ROLE_USER");
+        userRepository.save(user);
         return "redirect:/crud-user";
     }
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable int id) {
-        String sql = "DELETE from user WHERE id = " + id;
-        jdbcTemplate.update(sql);
+        userRepository.deleteById(id);
         return "redirect:/crud-user";
     }
 }

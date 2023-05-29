@@ -15,6 +15,8 @@ public class User {
 
     private String email;
 
+    private String authority;
+
     public Integer getId() {
         return id;
     }
@@ -38,4 +40,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getAuthority() { return authority; }
+
+    public void setAuthority(String authority) { this.authority = authority; }
 }
