@@ -1,8 +1,13 @@
 package com.example.springboot.controller;
 
+import com.example.springboot.UserDetailsImpl;
+import com.example.springboot.UserDetailsServiceImpl;
 import com.example.springboot.form.CrudUserForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +20,11 @@ import java.util.Map;
 public class CrudUserController {
     private final JdbcTemplate jdbcTemplate;
 
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
     @Autowired
-    public CrudUserController(JdbcTemplate jdbcTemplate) {
+    public CrudUserController(JdbcTemplate jdbcTemplate, UserDetailsServiceImpl userDetailsServiceImpl) {
         this.jdbcTemplate = jdbcTemplate;
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
 
     @GetMapping
@@ -29,14 +36,18 @@ public class CrudUserController {
     }
 
     @GetMapping("/form")
-    public String form() {
+    public String form(@ModelAttribute CrudUserForm crudUserForm) {
         return "crud-user/form";
     }
 
     @PostMapping("/form")
-    public String create(CrudUserForm crudUserForm) {
-        String sql = "INSERT INTO user(name, email, authority) VALUES(?, ?, ?);";
-        jdbcTemplate.update(sql, crudUserForm.getName(), crudUserForm.getEmail(), "ROLE_USER");
+    public String create(CrudUserForm crudUserForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            userDetailsServiceImpl.register(crudUserForm.getName(), crudUserForm.getEmail(), crudUserForm.getPassword(), "ROLE_USER");
+        } catch (DataAccessException e) {
+            System.out.println(e);
+            return "redirect:/crud-user";
+        }
         return "redirect:/crud-user";
     }
 

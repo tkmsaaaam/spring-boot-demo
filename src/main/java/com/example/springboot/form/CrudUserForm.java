@@ -6,6 +6,8 @@ public class CrudUserForm {
     private String email;
     private String authority;
 
+    private String password;
+
     public Integer getId() {
         return id;
     }
@@ -37,4 +39,8 @@ public class CrudUserForm {
     public void setAuthority(String authority) {
         this.authority = authority;
     }
+
+    public String getPassword() { return password; }
+
+    public void setPassword(String password) { this.password = password; }
 }
