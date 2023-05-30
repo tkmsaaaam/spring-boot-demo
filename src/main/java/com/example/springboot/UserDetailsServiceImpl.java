@@ -1,52 +1,68 @@
 package com.example.springboot;
 
+import com.example.springboot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
-
-    @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    UserRepository userRepository;
+
+    private final UserRepositoryCustomImpl userRepositoryCustomImpl;
+
+    @Autowired
+    public UserDetailsServiceImpl(UserRepositoryCustomImpl userRepositoryCustomImpl) {
+        this.userRepositoryCustomImpl = userRepositoryCustomImpl;
+    }
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try {
-            String sql = "SELECT * FROM user WHERE name = ?";
-            Map<String, Object> map = jdbcTemplate.queryForMap(sql, username);
-            String password = (String) map.get("password");
-            Collection<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority((String) map.get("authority")));
-            return new UserDetailsImpl(username, password, authorities);
-        } catch (Exception e) {
-            throw new UsernameNotFoundException("user not found.", e);
-        }
+    public UserDetails loadUserByUsername(String username) {
+        return userRepositoryCustomImpl.findByName(username);
     }
 
     @Transactional
     public void register(String username, String email, String password, String authority) {
-        String sql = "INSERT INTO user(name, email, password, authority) VALUES(?, ?, ?, ?);";
-        jdbcTemplate.update(sql, username, email, passwordEncoder.encode(password), authority);
+        User user = new User();
+        user.setName(username);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setAuthority(authority);
+        userRepositoryCustomImpl.register(user);
+    }
+
+    public void update(User user) {
+        userRepositoryCustomImpl.update(user);
     }
 
     public boolean isExistUser(String username) {
-        String sql = "SELECT COUNT(*) FROM user WHERE name = ?";
-        int count = jdbcTemplate.queryForObject(sql, Integer.class, username);
-        return count != 0;
+        return userRepositoryCustomImpl.isExisted(username);
+    }
+
+    public List<User> findAll() {
+        return (List<User>) userRepository.findAll();
+    }
+
+    public Optional<User> findById(int id) {
+        return userRepository.findById(id);
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public void deleteById(int id) {
+        userRepository.deleteById(id);
     }
 }

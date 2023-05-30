@@ -2,7 +2,6 @@ package com.example.springboot.controller;
 
 import com.example.springboot.UserDetailsImpl;
 import com.example.springboot.UserDetailsServiceImpl;
-import com.example.springboot.UserRepository;
 import com.example.springboot.form.CrudUserForm;
 import com.example.springboot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +20,14 @@ public class CrudUserController {
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public CrudUserController(UserDetailsServiceImpl userDetailsServiceImpl, UserRepository userRepository) {
+    public CrudUserController(UserDetailsServiceImpl userDetailsServiceImpl) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;
-        this.userRepository = userRepository;
     }
 
     @GetMapping
     public String index(Model model) {
-        List<User> list = (List<User>) userRepository.findAll();
+        List<User> list = userDetailsServiceImpl.findAll();
         model.addAttribute("crudUserList", list);
         return "crud-user/index";
     }
@@ -54,7 +50,7 @@ public class CrudUserController {
 
     @GetMapping("/edit/{id}")
     public String edit(@ModelAttribute CrudUserForm crudUserForm, @PathVariable int id) {
-        Optional<User> user = userRepository.findById(id);
+        Optional<User> user = userDetailsServiceImpl.findById(id);
         if (user.isPresent()) {
             crudUserForm.setId(user.get().getId());
             crudUserForm.setName(user.get().getName());
@@ -72,13 +68,13 @@ public class CrudUserController {
         user.setName(crudUserForm.getName());
         user.setEmail(crudUserForm.getEmail());
         user.setAuthority("ROLE_USER");
-        userRepository.save(user);
+        userDetailsServiceImpl.update(user);
         return "redirect:/crud-user";
     }
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable int id) {
-        userRepository.deleteById(id);
+        userDetailsServiceImpl.deleteById(id);
         return "redirect:/crud-user";
     }
 }
