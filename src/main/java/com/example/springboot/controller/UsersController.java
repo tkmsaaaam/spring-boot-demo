@@ -1,6 +1,6 @@
 package com.example.springboot.controller;
 
-import com.example.springboot.UserRepository;
+import com.example.springboot.UserDetailsServiceImpl;
 import com.example.springboot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,23 +11,25 @@ import java.util.Optional;
 @Controller
 @RequestMapping(path = "/api/user")
 public class UsersController {
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
+
     @Autowired
-    private UserRepository userRepository;
+    public UsersController(UserDetailsServiceImpl userDetailsServiceImpl) {
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
+    }
 
     @PostMapping(path = "/add")
-    public @ResponseBody String addNewUser(@RequestParam String name
-            , @RequestParam String email) {
-
+    public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String email) {
         User n = new User();
         n.setName(name);
         n.setEmail(email);
-        userRepository.save(n);
+        userDetailsServiceImpl.save(n);
         return "Saved";
     }
 
     @GetMapping("/{id}")
     public @ResponseBody String getUser(@PathVariable int id) {
-        Optional<User> u = userRepository.findById(id);
+        Optional<User> u = userDetailsServiceImpl.findById(id);
         if (u.isPresent()) {
             return u.get().getEmail();
         } else {
@@ -37,22 +39,22 @@ public class UsersController {
 
     @GetMapping(path = "/all")
     public @ResponseBody Iterable<User> getAllUsers() {
-        return userRepository.findAll();
+        return userDetailsServiceImpl.findAll();
     }
 
     @PostMapping(path = "/edit/{id}")
     public @ResponseBody String editUser(@RequestParam(required = false) String name, @RequestParam(required = false) String email, @PathVariable int id) {
-        User u = userRepository.findById(id).get();
-        u.setName(name);
-        u.setEmail(email);
-        userRepository.save(u);
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setEmail(email);
+        userDetailsServiceImpl.update(user);
         return "Updated";
     }
 
     @PostMapping("/delete/{id}")
     public @ResponseBody String deleteUser(@PathVariable int id) {
-        User u = userRepository.findById(id).get();
-        userRepository.delete(u);
+        userDetailsServiceImpl.deleteById(id);
         return "Deleted";
     }
 }

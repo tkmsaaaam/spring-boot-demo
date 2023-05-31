@@ -7,7 +7,7 @@ import java.io.Serializable;
 public interface UserRepositoryCustom extends Serializable {
     boolean isExisted(String name);
 
-    UserDetailsImpl findByName(String name);
+    User findByName(String name);
 
     void register(User user);
 

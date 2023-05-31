@@ -3,7 +3,6 @@ package com.example.springboot.controller;
 import com.example.springboot.UserDetailsImpl;
 import com.example.springboot.UserDetailsServiceImpl;
 import com.example.springboot.form.SignupForm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,8 +25,11 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/")
 public class SignController {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsServiceImpl;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
+
+    public SignController(UserDetailsServiceImpl userDetailsServiceImpl) {
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
+    }
 
     @GetMapping
     public String index(@AuthenticationPrincipal UserDetailsImpl userDetails) {

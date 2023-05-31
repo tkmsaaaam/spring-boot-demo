@@ -3,12 +3,8 @@ package com.example.springboot;
 import com.example.springboot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
 
 @Repository
@@ -25,13 +21,15 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         return 0 != jdbcTemplate.queryForObject(sql, Integer.class, name);
     }
 
-    public UserDetailsImpl findByName(String name) {
+    public User findByName(String name) {
         String sql = "SELECT * FROM user WHERE name = ?";
         Map<String, Object> map = jdbcTemplate.queryForMap(sql, name);
-        String password = (String) map.get("password");
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority((String) map.get("authority")));
-        return new UserDetailsImpl(name, password, authorities);
+        User user = new User();
+        user.setName((String) map.get("name"));
+        user.setEmail((String) map.get("email"));
+        user.setPassword((String) map.get("password"));
+        user.setAuthority((String) map.get("authority"));
+        return user;
     }
 
     public void register(User user) {
