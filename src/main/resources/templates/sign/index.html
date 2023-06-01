@@ -6,7 +6,7 @@
 </head>
   <body>
       <h2>Sample Page</h2>
-      <div th:text="'こんにちは ' + ${#authentication.name} + ' さん'"></div>
+<!--      <div th:text="'こんにちは ' + ${#authentication.name} + ' さん'"></div>-->
       <form th:action="@{/logout}" method="post">
           <input type="submit" value="ログアウト" />
       </form>
