@@ -1,20 +1,16 @@
 package com.example.springboot;
 
 import com.example.springboot.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 
+@AllArgsConstructor
 @Repository
 public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private final JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public UserRepositoryCustomImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     public boolean isExisted(String name) {
         String sql = "SELECT COUNT(*) FROM user WHERE name = ?";
@@ -24,12 +20,12 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     public User findByName(String name) {
         String sql = "SELECT * FROM user WHERE name = ?";
         Map<String, Object> map = jdbcTemplate.queryForMap(sql, name);
-        User user = new User();
-        user.setName((String) map.get("name"));
-        user.setEmail((String) map.get("email"));
-        user.setPassword((String) map.get("password"));
-        user.setAuthority((String) map.get("authority"));
-        return user;
+        return User.builder()
+                .name((String) map.get("name"))
+                .email((String) map.get("email"))
+                .password((String) map.get("password"))
+                .authority((String) map.get("authority"))
+                .build();
     }
 
     public void register(User user) {

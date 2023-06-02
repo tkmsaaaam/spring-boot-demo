@@ -1,12 +1,11 @@
 package com.example.springboot;
 
 import com.example.springboot.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -25,28 +25,26 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepositoryCustomImpl userRepositoryCustomImpl;
 
-    @Autowired
-    public UserDetailsServiceImpl(UserRepository userRepository, UserRepositoryCustomImpl userRepositoryCustomImpl) {
-        this.userRepository = userRepository;
-        this.userRepositoryCustomImpl = userRepositoryCustomImpl;
-        this.passwordEncoder = new BCryptPasswordEncoder();
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userRepositoryCustomImpl.findByName(username);
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getAuthority()));
-        return new UserDetailsImpl(user.getName(), user.getPassword(), authorities);
+        return UserDetailsImpl.builder()
+                .username(user.getName())
+                .password(user.getPassword())
+                .authorities(authorities)
+                .build();
     }
 
     @Transactional
     public void register(String username, String email, String password, String authority) {
-        User user = new User();
-        user.setName(username);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setAuthority(authority);
+        User user = User.builder()
+                .name(username)
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .authority(authority)
+                .build();
         userRepositoryCustomImpl.register(user);
     }
 

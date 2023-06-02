@@ -63,11 +63,12 @@ public class CrudUserController {
 
     @PostMapping("/edit/{id}")
     public String update(CrudUserForm crudUserForm, @PathVariable int id) {
-        User user = new User();
-        user.setId(id);
-        user.setName(crudUserForm.getName());
-        user.setEmail(crudUserForm.getEmail());
-        user.setAuthority("ROLE_USER");
+        User user = User.builder()
+                .id(id)
+                .name(crudUserForm.getName())
+                .email(crudUserForm.getEmail())
+                .authority("ROLE_USER")
+                .build();
         userDetailsServiceImpl.update(user);
         return "redirect:/crud-user";
     }

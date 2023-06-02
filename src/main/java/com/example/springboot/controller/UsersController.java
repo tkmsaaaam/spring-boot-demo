@@ -20,9 +20,7 @@ public class UsersController {
 
     @PostMapping(path = "/add")
     public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String email) {
-        User n = new User();
-        n.setName(name);
-        n.setEmail(email);
+        User n = User.builder().name(name).email(email).build();
         userDetailsServiceImpl.save(n);
         return "Saved";
     }
@@ -44,10 +42,7 @@ public class UsersController {
 
     @PostMapping(path = "/edit/{id}")
     public @ResponseBody String editUser(@RequestParam(required = false) String name, @RequestParam(required = false) String email, @PathVariable int id) {
-        User user = new User();
-        user.setId(id);
-        user.setName(name);
-        user.setEmail(email);
+        User user = User.builder().id(id).name(name).email(email).build();
         userDetailsServiceImpl.update(user);
         return "Updated";
     }
