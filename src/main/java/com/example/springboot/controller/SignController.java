@@ -31,7 +31,8 @@ public class SignController {
     }
 
     @GetMapping
-    public String index(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public String index(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        model.addAttribute("userName", userDetails.getUsername());
         return "sign/index";
     }
 
