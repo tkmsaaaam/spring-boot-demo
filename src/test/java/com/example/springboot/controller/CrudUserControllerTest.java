@@ -5,11 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -19,22 +20,91 @@ public class CrudUserControllerTest {
     private MockMvc mvc;
 
     @Test
-    public void getIndex() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/crud-user/index").accept(MediaType.TEXT_HTML))
+    public void getIndexIs3xx() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/crud-user")
+                        .accept(MediaType.TEXT_HTML))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("http://localhost/login"));
     }
 
     @Test
-    public void getForm() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/crud-user/form").accept(MediaType.TEXT_HTML))
+    @WithMockUser
+    public void getIndexIsOk() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/crud-user")
+                        .with(user("user")
+                                .password("password")
+                                .roles("USER"))
+                        .accept(MediaType.TEXT_HTML))
+                .andExpect(status().isOk())
+                .andExpect(view().name("crud-user/index"));
+    }
+
+    @Test
+    public void getFormIs3xx() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/crud-user/form")
+                        .accept(MediaType.TEXT_HTML))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("http://localhost/login"));
     }
 
     @Test
-    public void postForm() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/crud-user/edit/id"))
+    @WithMockUser
+    public void getFormIsOk() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/crud-user/form")
+                        .with(user("user")
+                                .password("password")
+                                .roles("USER"))
+                        .accept(MediaType.TEXT_HTML))
+                .andExpect(status().isOk())
+                .andExpect(view().name("crud-user/form"));
+    }
+
+    @Test
+    public void postFormIs4xx() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/crud-user/form"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void getEditIs3xx() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/crud-user/edit/1")
+                        .accept(MediaType.TEXT_HTML))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost/login"));
+    }
+
+    @Test
+    @WithMockUser
+    public void getEditIsOk() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/crud-user/edit/1")
+                        .with(user("user")
+                                .password("password")
+                                .roles("USER"))
+                        .accept(MediaType.TEXT_HTML))
+                .andExpect(status().isOk())
+                .andExpect(view().name("crud-user/edit"));
+    }
+
+    @Test
+    public void postEditIs4xx() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/crud-user/edit/1")
+                        .accept(MediaType.TEXT_HTML))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void postDeleteIs4xx() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/crud-user/delete/1")
+                        .accept(MediaType.TEXT_HTML))
                 .andExpect(status().is4xxClientError());
     }
 }
