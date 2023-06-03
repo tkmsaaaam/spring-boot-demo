@@ -2,21 +2,17 @@ package com.example.springboot.controller;
 
 import com.example.springboot.UserDetailsServiceImpl;
 import com.example.springboot.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@AllArgsConstructor
 @Controller
 @RequestMapping(path = "/api/user")
 public class UsersController {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
-
-    @Autowired
-    public UsersController(UserDetailsServiceImpl userDetailsServiceImpl) {
-        this.userDetailsServiceImpl = userDetailsServiceImpl;
-    }
 
     @PostMapping(path = "/add")
     public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String email) {

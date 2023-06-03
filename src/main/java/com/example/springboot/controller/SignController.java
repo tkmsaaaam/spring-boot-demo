@@ -5,6 +5,7 @@ import com.example.springboot.UserDetailsServiceImpl;
 import com.example.springboot.form.SignupForm;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,15 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+@AllArgsConstructor
 @Controller
 @RequestMapping("/")
 public class SignController {
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;
-
-    public SignController(UserDetailsServiceImpl userDetailsServiceImpl) {
-        this.userDetailsServiceImpl = userDetailsServiceImpl;
-    }
 
     @GetMapping
     public String index(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {

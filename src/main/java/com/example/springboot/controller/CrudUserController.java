@@ -4,7 +4,7 @@ import com.example.springboot.UserDetailsImpl;
 import com.example.springboot.UserDetailsServiceImpl;
 import com.example.springboot.form.CrudUserForm;
 import com.example.springboot.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -14,16 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Controller
 @RequestMapping("/crud-user")
 public class CrudUserController {
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;
-
-    @Autowired
-    public CrudUserController(UserDetailsServiceImpl userDetailsServiceImpl) {
-        this.userDetailsServiceImpl = userDetailsServiceImpl;
-    }
 
     @GetMapping
     public String index(Model model) {
