@@ -1,6 +1,7 @@
-package com.example.springboot.controller;
+package com.example.springboot.controller.api;
 
 import com.example.springboot.UserDetailsServiceImpl;
+import com.example.springboot.form.api.UserForm;
 import com.example.springboot.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,13 +12,13 @@ import java.util.Optional;
 @AllArgsConstructor
 @Controller
 @RequestMapping(path = "/api/user")
-public class UsersController {
+public class UserController {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     @PostMapping(path = "/add")
-    public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String email) {
-        User n = User.builder().name(name).email(email).build();
-        userDetailsServiceImpl.save(n);
+    public @ResponseBody String addNewUser(@ModelAttribute UserForm userForm) {
+        User n = User.builder().name(userForm.getName()).email(userForm.getEmail()).build();
+        userDetailsServiceImpl.register(n);
         return "Saved";
     }
 
@@ -37,8 +38,8 @@ public class UsersController {
     }
 
     @PostMapping(path = "/edit/{id}")
-    public @ResponseBody String editUser(@RequestParam(required = false) String name, @RequestParam(required = false) String email, @PathVariable int id) {
-        User user = User.builder().id(id).name(name).email(email).build();
+    public @ResponseBody String editUser(@ModelAttribute UserForm userForm, @PathVariable int id) {
+        User user = User.builder().id(id).name(userForm.getName()).email(userForm.getEmail()).build();
         userDetailsServiceImpl.update(user);
         return "Updated";
     }

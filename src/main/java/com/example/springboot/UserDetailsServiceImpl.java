@@ -25,6 +25,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepositoryCustomImpl userRepositoryCustomImpl;
 
+    private final String ROLE_USER = "ROLE_USER";
+
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userRepositoryCustomImpl.findByName(username);
@@ -48,7 +50,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         userRepositoryCustomImpl.register(user);
     }
 
+    public void register(User user) {
+        user.setAuthority(ROLE_USER);
+        userRepositoryCustomImpl.register(user);
+    }
+
     public void update(User user) {
+        user.setAuthority(ROLE_USER);
         userRepositoryCustomImpl.update(user);
     }
 
@@ -62,10 +70,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public Optional<User> findById(int id) {
         return userRepository.findById(id);
-    }
-
-    public void save(User user) {
-        userRepository.save(user);
     }
 
     public void deleteById(int id) {

@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,8 @@ public class CrudUserController {
 
     @GetMapping
     public String index(Model model) {
-        List<User> list = userDetailsServiceImpl.findAll();
-        model.addAttribute("crudUserList", list);
+        List<User> userList = userDetailsServiceImpl.findAll();
+        model.addAttribute("userList", userList);
         return "crud-user/index";
     }
 
@@ -34,12 +35,11 @@ public class CrudUserController {
     }
 
     @PostMapping("/form")
-    public String create(CrudUserForm crudUserForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public String create(@Validated CrudUserForm crudUserForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             userDetailsServiceImpl.register(crudUserForm.getName(), crudUserForm.getEmail(), crudUserForm.getPassword(), "ROLE_USER");
         } catch (DataAccessException e) {
             System.out.println(e);
-            return "redirect:/crud-user";
         }
         return "redirect:/crud-user";
     }
@@ -53,12 +53,12 @@ public class CrudUserController {
             crudUserForm.setEmail(user.get().getEmail());
             return "crud-user/edit";
         } else {
-            return "redirect:/crud-user";
+            return "redirect:/crud-user/form";
         }
     }
 
     @PostMapping("/edit/{id}")
-    public String update(CrudUserForm crudUserForm, @PathVariable int id) {
+    public String update(@Validated CrudUserForm crudUserForm, @PathVariable int id) {
         User user = User.builder()
                 .id(id)
                 .name(crudUserForm.getName())
