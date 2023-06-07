@@ -1,6 +1,6 @@
 package com.example.springboot.controller.api;
 
-import com.example.springboot.UserDetailsServiceImpl;
+import com.example.springboot.service.UserDetailsServiceImpl;
 import com.example.springboot.form.api.UserForm;
 import com.example.springboot.model.User;
 import lombok.AllArgsConstructor;

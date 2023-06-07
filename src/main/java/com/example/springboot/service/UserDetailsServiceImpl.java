@@ -1,6 +1,9 @@
-package com.example.springboot;
+package com.example.springboot.service;
 
+import com.example.springboot.UserDetailsImpl;
 import com.example.springboot.model.User;
+import com.example.springboot.repository.UserRepository;
+import com.example.springboot.repository.UserRepositoryCustomImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
