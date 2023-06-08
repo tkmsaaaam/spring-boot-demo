@@ -1,4 +1,4 @@
-package com.example.springboot;
+package com.example.springboot.model;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -1,9 +1,9 @@
 package com.example.springboot.controller;
 
-import com.example.springboot.UserDetailsImpl;
+import com.example.springboot.model.UserDetailsImpl;
 import com.example.springboot.service.UserDetailsServiceImpl;
 import com.example.springboot.form.CrudUserForm;
-import com.example.springboot.model.User;
+import com.example.springboot.Entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

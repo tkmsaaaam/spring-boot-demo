@@ -1,6 +1,6 @@
 package com.example.springboot.repository;
 
-import com.example.springboot.model.User;
+import com.example.springboot.Entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

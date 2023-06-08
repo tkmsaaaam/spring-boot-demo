@@ -2,7 +2,7 @@ package com.example.springboot.controller.api;
 
 import com.example.springboot.service.UserDetailsServiceImpl;
 import com.example.springboot.form.api.UserForm;
-import com.example.springboot.model.User;
+import com.example.springboot.Entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
