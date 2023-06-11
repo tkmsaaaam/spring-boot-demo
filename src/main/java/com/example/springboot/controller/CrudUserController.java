@@ -1,9 +1,10 @@
 package com.example.springboot.controller;
 
-import com.example.springboot.model.UserDetailsImpl;
-import com.example.springboot.service.UserDetailsServiceImpl;
-import com.example.springboot.form.CrudUserForm;
 import com.example.springboot.Entity.User;
+import com.example.springboot.form.CrudUserForm;
+import com.example.springboot.model.UserDetailsImpl;
+import com.example.springboot.record.ResponseUser;
+import com.example.springboot.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Controller
@@ -24,7 +26,10 @@ public class CrudUserController {
 
     @GetMapping
     public String index(Model model) {
-        List<User> userList = userDetailsServiceImpl.findAll();
+        List<ResponseUser> userList = userDetailsServiceImpl.findAll()
+                .stream()
+                .map(user -> new ResponseUser(user.getId(), user.getName(), user.getEmail(), user.getAuthority()))
+                .collect(Collectors.toList());
         model.addAttribute("userList", userList);
         return "crud-user/index";
     }

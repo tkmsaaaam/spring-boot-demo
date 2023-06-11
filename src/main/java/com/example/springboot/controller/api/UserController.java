@@ -1,13 +1,16 @@
 package com.example.springboot.controller.api;
 
-import com.example.springboot.service.UserDetailsServiceImpl;
-import com.example.springboot.form.api.UserForm;
 import com.example.springboot.Entity.User;
+import com.example.springboot.form.api.UserForm;
+import com.example.springboot.record.ResponseUser;
+import com.example.springboot.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Controller
@@ -33,8 +36,11 @@ public class UserController {
     }
 
     @GetMapping(path = "/all")
-    public @ResponseBody Iterable<User> getAllUsers() {
-        return userDetailsServiceImpl.findAll();
+    public @ResponseBody List<ResponseUser> getAllUsers() {
+        return userDetailsServiceImpl.findAll()
+                .stream()
+                .map(user -> new ResponseUser(user.getId(), user.getName(), user.getEmail(), user.getAuthority()))
+                .collect(Collectors.toList());
     }
 
     @PostMapping(path = "/edit/{id}")
