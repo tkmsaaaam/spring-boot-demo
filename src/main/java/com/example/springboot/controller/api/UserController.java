@@ -19,14 +19,14 @@ public class UserController {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     @PostMapping(path = "/add")
-    public @ResponseBody String addNewUser(@ModelAttribute UserForm userForm) {
+    public @ResponseBody String add(@ModelAttribute UserForm userForm) {
         User n = User.builder().name(userForm.getName()).email(userForm.getEmail()).build();
         userDetailsServiceImpl.register(n);
         return "Saved";
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody String getUser(@PathVariable int id) {
+    public @ResponseBody String get(@PathVariable int id) {
         Optional<User> u = userDetailsServiceImpl.findById(id);
         if (u.isPresent()) {
             return u.get().getEmail();
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/all")
-    public @ResponseBody List<ResponseUser> getAllUsers() {
+    public @ResponseBody List<ResponseUser> getAll() {
         return userDetailsServiceImpl.findAll()
                 .stream()
                 .map(user -> new ResponseUser(user.getId(), user.getName(), user.getEmail(), user.getAuthority()))
@@ -44,14 +44,14 @@ public class UserController {
     }
 
     @PostMapping(path = "/edit/{id}")
-    public @ResponseBody String editUser(@ModelAttribute UserForm userForm, @PathVariable int id) {
+    public @ResponseBody String edit(@ModelAttribute UserForm userForm, @PathVariable int id) {
         User user = User.builder().id(id).name(userForm.getName()).email(userForm.getEmail()).build();
         userDetailsServiceImpl.update(user);
         return "Updated";
     }
 
     @PostMapping("/delete/{id}")
-    public @ResponseBody String deleteUser(@PathVariable int id) {
+    public @ResponseBody String delete(@PathVariable int id) {
         userDetailsServiceImpl.deleteById(id);
         return "Deleted";
     }
