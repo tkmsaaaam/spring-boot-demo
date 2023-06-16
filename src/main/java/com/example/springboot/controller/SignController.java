@@ -1,8 +1,8 @@
 package com.example.springboot.controller;
 
+import com.example.springboot.form.SignupForm;
 import com.example.springboot.model.UserDetailsImpl;
 import com.example.springboot.service.UserDetailsServiceImpl;
-import com.example.springboot.form.SignupForm;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;

@@ -1,0 +1,3 @@
+DELETE FROM USER;
+INSERT INTO USER (EMAIL, NAME, PASSWORD, AUTHORITY)
+VALUES ("email@example.com", "name", "password", "ROLE_USER");
