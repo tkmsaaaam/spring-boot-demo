@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Insert title here</title>
 </head>
   <body>
       <h2>Sample Page</h2>
-      <div th:text="'こんにちは ' + ${userName} + ' さん'"></div>
+      <p>こんにちは</p>
+      <p sec:authentication="principal.username"></p>
+      <p>さん</p>
       <form th:action="@{/logout}" method="post">
           <input type="submit" value="ログアウト" />
       </form>
