@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="utf-8">
-    <title>CRUD Sample</title>
-  </head>
-  <body>
-    <h2>New Form</h2>
-    <form method="post" action="#" th:action="@{/crud-user/form}" th:object="${crudUserForm}">
-      <label for="name">name</label>
-      <input type="text" id="name" name="name" th:value="${crudUserForm.name}">
-      <label for="email">email</label>
-      <input type="text" id="email" name="email" th:value="${crudUserForm.email}">
-      <label for="password">パスワード</label>
-      <input type="password" id="password" name="password" th:value="${crudUserForm.password}"><br>
-      <input type="submit" value="submit">
-    </form>
-    <div><a href="#" th:href="@{/crud-user}">Top Page</a></div>
-  </body>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>CRUD Sample</title>
+</head>
+
+<body>
+  <h2>New Form</h2>
+  <form method="post" action="#" th:action="@{/crud-user/form}" th:object="${crudUserForm}">
+    <label for="name">name</label>
+    <input type="text" id="name" name="name" th:value="${crudUserForm.name}">
+    <label for="email">email</label>
+    <input type="text" id="email" name="email" th:value="${crudUserForm.email}">
+    <label for="password">パスワード</label>
+    <input type="password" id="password" name="password" th:value="${crudUserForm.password}"><br>
+    <input type="submit" value="submit">
+  </form>
+  <div><a href="#" th:href="@{/crud-user}">Top Page</a></div>
+</body>
+
 </html>

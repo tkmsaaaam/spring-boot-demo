@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <title>CRUD Sample</title>
-  </head>
-  <body>
-    <h2>Edit Form</h2>
-    <form method="post" action="#" th:action="@{'/crud-user/edit/' + ${crudUserForm.getId}}" th:object="${crudUserForm}">
-      <label for="name">name</label>
-      <input type="text" id="name" name="name" th:value="${crudUserForm.getName}">
-      <label for="email">email</label>
-      <input type="text" id="email" name="email" th:value="${crudUserForm.getEmail}">
-      <input type="submit" value="submit">
-    </form>
-    <div><a href="#" th:href="@{/crud-user}">Top Page</a></div>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <title>CRUD Sample</title>
+</head>
+
+<body>
+  <h2>Edit Form</h2>
+  <form method="post" action="#" th:action="@{'/crud-user/edit/' + ${crudUserForm.getId}}" th:object="${crudUserForm}">
+    <label for="name">name</label>
+    <input type="text" id="name" name="name" th:value="${crudUserForm.getName}">
+    <label for="email">email</label>
+    <input type="text" id="email" name="email" th:value="${crudUserForm.getEmail}">
+    <input type="submit" value="submit">
+  </form>
+  <div><a href="#" th:href="@{/crud-user}">Top Page</a></div>
+</body>
+
 </html>
