@@ -1,14 +1,13 @@
 package com.example.springboot.service;
 
-import com.example.springboot.model.UserDetailsImpl;
 import com.example.springboot.Entity.User;
+import com.example.springboot.model.UserDetailsImpl;
+import com.example.springboot.repository.UserCustomRepository;
 import com.example.springboot.repository.UserRepository;
-import com.example.springboot.repository.UserRepositoryCustomImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,19 +19,19 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsCustomService {
 
     private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
 
-    private final UserRepositoryCustomImpl userRepositoryCustomImpl;
+    private final UserCustomRepository userCustomRepository;
 
     private final String ROLE_USER = "ROLE_USER";
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = userRepositoryCustomImpl.findByName(username);
+        User user = userCustomRepository.findByName(username);
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getAuthority()));
         return UserDetailsImpl.builder()
@@ -50,21 +49,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .password(passwordEncoder.encode(password))
                 .authority(authority)
                 .build();
-        userRepositoryCustomImpl.register(user);
+        userCustomRepository.register(user);
     }
 
     public void register(User user) {
         user.setAuthority(ROLE_USER);
-        userRepositoryCustomImpl.register(user);
+        userCustomRepository.register(user);
     }
 
     public void update(User user) {
         user.setAuthority(ROLE_USER);
-        userRepositoryCustomImpl.update(user);
+        userCustomRepository.update(user);
     }
 
     public boolean isExistUser(String username) {
-        return userRepositoryCustomImpl.isExisted(username) != 0;
+        return userCustomRepository.isExisted(username) != 0;
     }
 
     public List<User> findAll() {

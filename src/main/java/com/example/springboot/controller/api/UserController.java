@@ -3,7 +3,7 @@ package com.example.springboot.controller.api;
 import com.example.springboot.Entity.User;
 import com.example.springboot.form.api.UserForm;
 import com.example.springboot.record.ResponseUser;
-import com.example.springboot.service.UserDetailsServiceImpl;
+import com.example.springboot.service.UserDetailsCustomService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +16,18 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping(path = "/api/user")
 public class UserController {
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final UserDetailsCustomService userDetailsCustomService;
 
     @PostMapping(path = "/add")
     public @ResponseBody String add(@ModelAttribute UserForm userForm) {
         User n = User.builder().name(userForm.getName()).email(userForm.getEmail()).build();
-        userDetailsServiceImpl.register(n);
+        userDetailsCustomService.register(n);
         return "Saved";
     }
 
     @GetMapping("/{id}")
     public @ResponseBody String get(@PathVariable int id) {
-        Optional<User> u = userDetailsServiceImpl.findById(id);
+        Optional<User> u = userDetailsCustomService.findById(id);
         if (u.isPresent()) {
             return u.get().getEmail();
         } else {
@@ -37,7 +37,7 @@ public class UserController {
 
     @GetMapping(path = "/all")
     public @ResponseBody List<ResponseUser> getAll() {
-        return userDetailsServiceImpl.findAll()
+        return userDetailsCustomService.findAll()
                 .stream()
                 .map(user -> new ResponseUser(user.getId(), user.getName(), user.getEmail(), user.getAuthority()))
                 .collect(Collectors.toList());
@@ -46,13 +46,13 @@ public class UserController {
     @PostMapping(path = "/edit/{id}")
     public @ResponseBody String edit(@ModelAttribute UserForm userForm, @PathVariable int id) {
         User user = User.builder().id(id).name(userForm.getName()).email(userForm.getEmail()).build();
-        userDetailsServiceImpl.update(user);
+        userDetailsCustomService.update(user);
         return "Updated";
     }
 
     @PostMapping("/delete/{id}")
     public @ResponseBody String delete(@PathVariable int id) {
-        userDetailsServiceImpl.deleteById(id);
+        userDetailsCustomService.deleteById(id);
         return "Deleted";
     }
 }

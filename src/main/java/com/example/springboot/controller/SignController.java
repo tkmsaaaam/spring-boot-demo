@@ -2,7 +2,7 @@ package com.example.springboot.controller;
 
 import com.example.springboot.form.SignupForm;
 import com.example.springboot.model.UserDetailsImpl;
-import com.example.springboot.service.UserDetailsServiceImpl;
+import com.example.springboot.service.UserDetailsCustomService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class SignController {
 
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final UserDetailsCustomService userDetailsCustomService;
 
     @GetMapping
     public String index(@AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -49,13 +49,13 @@ public class SignController {
             return "sign/signup";
         }
 
-        if (userDetailsServiceImpl.isExistUser(signupForm.getUsername())) {
+        if (userDetailsCustomService.isExistUser(signupForm.getUsername())) {
             model.addAttribute("signupError", "ユーザー名 " + signupForm.getUsername() + "は既に登録されています");
             return "sign/signup";
         }
 
         try {
-            userDetailsServiceImpl.register(signupForm.getUsername(), signupForm.getEmail(), signupForm.getPassword(), "ROLE_USER");
+            userDetailsCustomService.register(signupForm.getUsername(), signupForm.getEmail(), signupForm.getPassword(), "ROLE_USER");
         } catch (DataAccessException e) {
             System.out.println(e);
             model.addAttribute("signupError", "ユーザー登録に失敗しました");

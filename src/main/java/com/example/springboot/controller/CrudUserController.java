@@ -4,7 +4,7 @@ import com.example.springboot.Entity.User;
 import com.example.springboot.form.CrudUserForm;
 import com.example.springboot.model.UserDetailsImpl;
 import com.example.springboot.record.ResponseUser;
-import com.example.springboot.service.UserDetailsServiceImpl;
+import com.example.springboot.service.UserDetailsCustomService;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/crud-user")
 public class CrudUserController {
 
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final UserDetailsCustomService userDetailsCustomService;
 
     @GetMapping
     public String index(Model model) {
-        List<ResponseUser> userList = userDetailsServiceImpl.findAll()
+        List<ResponseUser> userList = userDetailsCustomService.findAll()
                 .stream()
                 .map(user -> new ResponseUser(user.getId(), user.getName(), user.getEmail(), user.getAuthority()))
                 .collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class CrudUserController {
     @PostMapping("/form")
     public String create(@Validated CrudUserForm crudUserForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            userDetailsServiceImpl.register(crudUserForm.getName(), crudUserForm.getEmail(), crudUserForm.getPassword(), "ROLE_USER");
+            userDetailsCustomService.register(crudUserForm.getName(), crudUserForm.getEmail(), crudUserForm.getPassword(), "ROLE_USER");
         } catch (DataAccessException e) {
             System.out.println(e);
         }
@@ -51,7 +51,7 @@ public class CrudUserController {
 
     @GetMapping("/edit/{id}")
     public String edit(@ModelAttribute CrudUserForm crudUserForm, @PathVariable int id) {
-        Optional<User> user = userDetailsServiceImpl.findById(id);
+        Optional<User> user = userDetailsCustomService.findById(id);
         if (user.isPresent()) {
             crudUserForm.setId(user.get().getId());
             crudUserForm.setName(user.get().getName());
@@ -70,13 +70,13 @@ public class CrudUserController {
                 .email(crudUserForm.getEmail())
                 .authority("ROLE_USER")
                 .build();
-        userDetailsServiceImpl.update(user);
+        userDetailsCustomService.update(user);
         return "redirect:/crud-user";
     }
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable int id) {
-        userDetailsServiceImpl.deleteById(id);
+        userDetailsCustomService.deleteById(id);
         return "redirect:/crud-user";
     }
 }

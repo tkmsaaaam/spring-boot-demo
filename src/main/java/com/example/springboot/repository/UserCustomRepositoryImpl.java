@@ -9,7 +9,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 @Repository
-public class UserRepositoryCustomImpl implements UserRepositoryCustom {
+public class UserCustomRepositoryImpl implements UserCustomRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public Integer isExisted(String name) {

@@ -4,7 +4,7 @@ import com.example.springboot.Entity.User;
 
 import java.io.Serializable;
 
-public interface UserRepositoryCustom extends Serializable {
+public interface UserCustomRepository extends Serializable {
     Integer isExisted(String name);
 
     User findByName(String name);
