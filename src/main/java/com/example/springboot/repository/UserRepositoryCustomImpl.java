@@ -12,9 +12,9 @@ import java.util.Map;
 public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private final JdbcTemplate jdbcTemplate;
 
-    public boolean isExisted(String name) {
+    public Integer isExisted(String name) {
         String sql = "SELECT COUNT(*) FROM user WHERE name = ?";
-        return 0 != jdbcTemplate.queryForObject(sql, Integer.class, name);
+        return jdbcTemplate.queryForObject(sql, Integer.class, name);
     }
 
     public User findByName(String name) {

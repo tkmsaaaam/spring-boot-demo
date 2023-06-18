@@ -64,7 +64,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public boolean isExistUser(String username) {
-        return userRepositoryCustomImpl.isExisted(username);
+        return userRepositoryCustomImpl.isExisted(username) != 0;
     }
 
     public List<User> findAll() {
