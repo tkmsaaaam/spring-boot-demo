@@ -2,6 +2,7 @@ package com.example.springboot.repository;
 
 import com.example.springboot.Entity.User;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -19,13 +20,17 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
 
     public User findByName(String name) {
         String sql = "SELECT * FROM user WHERE name = ?";
-        Map<String, Object> map = jdbcTemplate.queryForMap(sql, name);
-        return User.builder()
-                .name((String) map.get("name"))
-                .email((String) map.get("email"))
-                .password((String) map.get("password"))
-                .authority((String) map.get("authority"))
-                .build();
+        try {
+            Map<String, Object> map = jdbcTemplate.queryForMap(sql, name);
+            return User.builder()
+                    .name((String) map.get("name"))
+                    .email((String) map.get("email"))
+                    .password((String) map.get("password"))
+                    .authority((String) map.get("authority"))
+                    .build();
+        } catch (DataAccessException dataAccessException) {
+            return new User();
+        }
     }
 
     public void register(User user) {
