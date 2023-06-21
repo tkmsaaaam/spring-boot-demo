@@ -31,14 +31,18 @@ public class UserDetailsServiceImpl implements UserDetailsCustomService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = userCustomRepository.findByName(username);
+        Optional<User> user = userCustomRepository.findByName(username);
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getAuthority()));
-        return UserDetailsImpl.builder()
-                .username(user.getName())
-                .password(user.getPassword())
-                .authorities(authorities)
-                .build();
+        if (user.isPresent()) {
+            authorities.add(new SimpleGrantedAuthority(user.get().getAuthority()));
+            return UserDetailsImpl.builder()
+                    .username(user.get().getName())
+                    .password(user.get().getPassword())
+                    .authorities(authorities)
+                    .build();
+        } else {
+            return new UserDetailsImpl(null, null, authorities);
+        }
     }
 
     @Transactional

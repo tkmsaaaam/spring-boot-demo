@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
@@ -18,18 +19,18 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
         return jdbcTemplate.queryForObject(sql, Integer.class, name);
     }
 
-    public User findByName(String name) {
+    public Optional<User> findByName(String name) {
         String sql = "SELECT * FROM user WHERE name = ?";
         try {
             Map<String, Object> map = jdbcTemplate.queryForMap(sql, name);
-            return User.builder()
+            return Optional.of(User.builder()
                     .name((String) map.get("name"))
                     .email((String) map.get("email"))
                     .password((String) map.get("password"))
                     .authority((String) map.get("authority"))
-                    .build();
+                    .build());
         } catch (DataAccessException dataAccessException) {
-            return new User();
+            return Optional.empty();
         }
     }
 

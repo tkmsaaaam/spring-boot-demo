@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.util.AssertionErrors.*;
@@ -37,21 +38,18 @@ public class UserCustomRepositoryTest {
     @Test
     @Sql("/sql/user-create.sql")
     public void canFindByName() {
-        User user = userCustomRepository.findByName("name");
-        assertEquals(null, "name", user.getName());
-        assertEquals(null, "email@example.com", user.getEmail());
-        assertEquals(null, "password", user.getPassword());
-        assertEquals(null, "ROLE_USER", user.getAuthority());
+        Optional<User> user = userCustomRepository.findByName("name");
+        assertEquals(null, "name", user.get().getName());
+        assertEquals(null, "email@example.com", user.get().getEmail());
+        assertEquals(null, "password", user.get().getPassword());
+        assertEquals(null, "ROLE_USER", user.get().getAuthority());
     }
 
     @Test
     @Sql("/sql/user-clear.sql")
     public void canNotFindByName() {
-        User user = userCustomRepository.findByName("name");
-        assertNull(null, user.getName());
-        assertNull(null, user.getEmail());
-        assertNull(null, user.getPassword());
-        assertNull(null, user.getAuthority());
+        Optional<User> user = userCustomRepository.findByName("name");
+        assertFalse(null, user.isPresent());
     }
 
     @Test
