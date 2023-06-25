@@ -66,10 +66,10 @@ public class UserCustomRepositoryTest {
         String sql = "SELECT * FROM USER WHERE name = ?";
         try {
             Map<String, Object> map = jdbcTemplate.queryForMap(sql, name);
-            assertEquals(null, "name", (String) map.get("name"));
-            assertEquals(null, "email@example.com", (String) map.get("email"));
-            assertEquals(null, "password", (String) map.get("password"));
-            assertEquals(null, "ROLE_USER", (String) map.get("authority"));
+            assertEquals(null, "name", map.get("name"));
+            assertEquals(null, "email@example.com", map.get("email"));
+            assertEquals(null, "password", map.get("password"));
+            assertEquals(null, "ROLE_USER", map.get("authority"));
         } catch (DataAccessException dataAccessException) {
             fail();
         }
@@ -89,10 +89,10 @@ public class UserCustomRepositoryTest {
         String sql = "SELECT * FROM USER WHERE name = ?";
         try {
             Map<String, Object> map = jdbcTemplate.queryForMap(sql, name);
-            assertEquals(null, "name1", (String) map.get("name"));
-            assertEquals(null, "email1@example.com", (String) map.get("email"));
-            assertEquals(null, "password1", (String) map.get("password"));
-            assertEquals(null, "ROLE_USER_1", (String) map.get("authority"));
+            assertEquals(null, "name1", map.get("name"));
+            assertEquals(null, "email1@example.com", map.get("email"));
+            assertEquals(null, "password1", map.get("password"));
+            assertEquals(null, "ROLE_USER_1", map.get("authority"));
         } catch (DataAccessException dataAccessException) {
             fail();
         }
