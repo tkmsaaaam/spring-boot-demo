@@ -11,6 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.util.AssertionErrors.*;
@@ -112,5 +113,37 @@ public class UserDetailsCustomServiceTest {
         assertEquals(null, "email1@example.com", user1.getEmail());
         assertEquals(null, "password1", user1.getPassword());
         assertEquals(null, "ROLE_USER", user1.getAuthority());
+    }
+
+    @Test
+    @Sql("/sql/users-create.sql")
+    public void canFindById() {
+        String sql = "SELECT ID FROM USER WHERE NAME = ?";
+        Integer id = jdbcTemplate.queryForObject(sql, Integer.class, "name");
+        try {
+            Optional<User> user = userDetailsCustomService.findById(id);
+            if (user.isPresent()) {
+                assertEquals(null, "name", user.get().getName());
+                assertEquals(null, "email@example.com", user.get().getEmail());
+                assertEquals(null, "password", user.get().getPassword());
+                assertEquals(null, "ROLE_USER", user.get().getAuthority());
+            } else {
+                fail();
+            }
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    @Sql("/sql/users-create.sql")
+    public void canDelete() {
+        String sql = "SELECT ID FROM USER WHERE NAME = ?";
+        Integer id = jdbcTemplate.queryForObject(sql, Integer.class, "name");
+        try {
+            userDetailsCustomService.deleteById(id);
+        } catch (Exception e) {
+            fail();
+        }
     }
 }
