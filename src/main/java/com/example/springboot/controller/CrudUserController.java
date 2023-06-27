@@ -42,7 +42,7 @@ public class CrudUserController {
     @PostMapping("/form")
     public String create(@Validated CrudUserForm crudUserForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            userDetailsCustomService.register(crudUserForm.getName(), crudUserForm.getEmail(), crudUserForm.getPassword(), "ROLE_USER");
+            userDetailsCustomService.register(crudUserForm.getName(), crudUserForm.getEmail(), crudUserForm.getPassword());
         } catch (DataAccessException e) {
             System.out.println(e);
         }

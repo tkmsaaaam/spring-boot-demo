@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDetailsCustomService extends UserDetailsService {
-    void register(String username, String email, String password, String authority);
+    void register(String username, String email, String password);
 
     void register(User user);
 

@@ -31,7 +31,7 @@ public class UserDetailsCustomServiceTest {
     @Test
     @Sql("/sql/user-clear.sql")
     public void canRegisterByStrings() {
-        userDetailsCustomService.register("username", "email@example.com", "password", "ROLE_USER");
+        userDetailsCustomService.register("username", "email@example.com", "password");
         String sql = "SELECT * FROM USER";
         try {
             Map<String, Object> map = jdbcTemplate.queryForMap(sql);
@@ -58,7 +58,7 @@ public class UserDetailsCustomServiceTest {
             Map<String, Object> map = jdbcTemplate.queryForMap(sql);
             assertEquals(null, "username", map.get("name"));
             assertEquals(null, "email@example.com", map.get("email"));
-            assertEquals(null, "password", map.get("password"));
+            assertTrue(null, passwordEncoder.matches("password", (String) map.get("password")));
             assertEquals(null, "ROLE_USER", map.get("authority"));
         } catch (DataAccessException dataAccessException) {
             fail();

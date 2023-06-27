@@ -26,13 +26,13 @@ public class UserCustomRepositoryTest {
     @Test
     @Sql("/sql/user-create.sql")
     public void isExistedTrue() {
-        assertEquals(null, 1, userCustomRepository.isExisted("name"));
+        assertEquals(null, 1, userCustomRepository.countByName("name"));
     }
 
     @Test
     @Sql("/sql/user-clear.sql")
     public void isExistedFalse() {
-        assertEquals(null, 0, userCustomRepository.isExisted("name"));
+        assertEquals(null, 0, userCustomRepository.countByName("name"));
     }
 
     @Test

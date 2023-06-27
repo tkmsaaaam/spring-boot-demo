@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Optional;
 
 public interface UserCustomRepository extends Serializable {
-    Integer isExisted(String name);
+    Integer countByName(String name);
 
     Optional<User> findByName(String name);
 

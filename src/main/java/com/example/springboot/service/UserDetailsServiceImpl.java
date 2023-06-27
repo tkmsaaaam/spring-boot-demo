@@ -46,18 +46,21 @@ public class UserDetailsServiceImpl implements UserDetailsCustomService {
     }
 
     @Transactional
-    public void register(String username, String email, String password, String authority) {
+    public void register(String username, String email, String password) {
         User user = User.builder()
                 .name(username)
                 .email(email)
                 .password(passwordEncoder.encode(password))
-                .authority(authority)
+                .authority(ROLE_USER)
                 .build();
         userCustomRepository.register(user);
     }
 
     public void register(User user) {
         user.setAuthority(ROLE_USER);
+        if (user.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         userCustomRepository.register(user);
     }
 
@@ -67,7 +70,7 @@ public class UserDetailsServiceImpl implements UserDetailsCustomService {
     }
 
     public boolean isExistUser(String username) {
-        return userCustomRepository.isExisted(username) != 0;
+        return userCustomRepository.countByName(username) != 0;
     }
 
     public List<User> findAll() {

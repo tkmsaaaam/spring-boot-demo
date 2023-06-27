@@ -14,7 +14,7 @@ import java.util.Optional;
 public class UserCustomRepositoryImpl implements UserCustomRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public Integer isExisted(String name) {
+    public Integer countByName(String name) {
         String sql = "SELECT COUNT(*) FROM user WHERE name = ?";
         return jdbcTemplate.queryForObject(sql, Integer.class, name);
     }
