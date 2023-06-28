@@ -1,7 +1,7 @@
 package com.example.springboot.controller;
 
 import com.example.springboot.form.SignupForm;
-import com.example.springboot.model.UserDetailsImpl;
+import com.example.springboot.model.UserDetails;
 import com.example.springboot.service.UserDetailsCustomService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ public class SignController {
     private final UserDetailsCustomService userDetailsCustomService;
 
     @GetMapping
-    public String index(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public String index(@AuthenticationPrincipal UserDetails userDetails) {
         return "sign/index";
     }
 

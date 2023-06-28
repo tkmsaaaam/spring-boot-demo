@@ -2,7 +2,7 @@ package com.example.springboot.controller;
 
 import com.example.springboot.Entity.User;
 import com.example.springboot.form.CrudUserForm;
-import com.example.springboot.model.UserDetailsImpl;
+import com.example.springboot.model.UserDetails;
 import com.example.springboot.record.ResponseUser;
 import com.example.springboot.service.UserDetailsCustomService;
 import lombok.AllArgsConstructor;
@@ -40,7 +40,7 @@ public class CrudUserController {
     }
 
     @PostMapping("/form")
-    public String create(@Validated CrudUserForm crudUserForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public String create(@Validated CrudUserForm crudUserForm, @AuthenticationPrincipal UserDetails userDetails) {
         try {
             userDetailsCustomService.register(crudUserForm.getName(), crudUserForm.getEmail(), crudUserForm.getPassword());
         } catch (DataAccessException e) {

@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -41,7 +42,7 @@ public class SignControllerTest {
     public void getTopIsOk() throws Exception {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("USER"));
-        UserDetailsImpl userDetails = new UserDetailsImpl("user", "password", authorities);
+        UserDetails userDetails = new UserDetailsImpl("user", "password", authorities);
         mvc.perform(MockMvcRequestBuilders
                         .get("/")
                         .with(user(userDetails))
