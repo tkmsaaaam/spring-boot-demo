@@ -57,7 +57,7 @@ public class SignController {
         try {
             userDetailsCustomService.register(signupForm.getUsername(), signupForm.getEmail(), signupForm.getPassword());
         } catch (DataAccessException e) {
-            System.out.println(e);
+            e.printStackTrace();
             model.addAttribute("signupError", "ユーザー登録に失敗しました");
             return "sign/signup";
         }

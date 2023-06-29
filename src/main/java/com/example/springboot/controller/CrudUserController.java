@@ -44,7 +44,7 @@ public class CrudUserController {
         try {
             userDetailsCustomService.register(crudUserForm.getName(), crudUserForm.getEmail(), crudUserForm.getPassword());
         } catch (DataAccessException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         return "redirect:/crud-user";
     }
