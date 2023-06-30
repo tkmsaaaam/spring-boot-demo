@@ -19,20 +19,16 @@ public class UserController {
     private final UserDetailsCustomService userDetailsCustomService;
 
     @PostMapping(path = "/add")
-    public @ResponseBody String add(@ModelAttribute UserForm userForm) {
-        User n = User.builder().name(userForm.getName()).email(userForm.getEmail()).build();
-        userDetailsCustomService.register(n);
-        return "Saved";
+    public @ResponseBody ResponseUser add(@ModelAttribute UserForm userForm) {
+        User user = User.builder().name(userForm.getName()).email(userForm.getEmail()).build();
+        userDetailsCustomService.register(user);
+        return new ResponseUser(user.getId(), user.getName(), user.getEmail(), user.getAuthority());
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody String get(@PathVariable int id) {
-        Optional<User> u = userDetailsCustomService.findById(id);
-        if (u.isPresent()) {
-            return u.get().getEmail();
-        } else {
-            return "Error";
-        }
+    public @ResponseBody Optional<ResponseUser> get(@PathVariable int id) {
+        Optional<User> user = userDetailsCustomService.findById(id);
+        return user.map(value -> new ResponseUser(value.getId(), value.getName(), value.getEmail(), value.getAuthority()));
     }
 
     @GetMapping(path = "/all")
@@ -44,10 +40,10 @@ public class UserController {
     }
 
     @PostMapping(path = "/edit/{id}")
-    public @ResponseBody String edit(@ModelAttribute UserForm userForm, @PathVariable int id) {
+    public @ResponseBody ResponseUser edit(@ModelAttribute UserForm userForm, @PathVariable int id) {
         User user = User.builder().id(id).name(userForm.getName()).email(userForm.getEmail()).build();
         userDetailsCustomService.update(user);
-        return "Updated";
+        return new ResponseUser(user.getId(), user.getName(), user.getEmail(), user.getAuthority());
     }
 
     @PostMapping("/delete/{id}")
